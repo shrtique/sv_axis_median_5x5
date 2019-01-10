@@ -32,7 +32,7 @@
         input  logic                    i_sys_clk,
         input  logic                    i_sys_aresetn,
 
-		input  logic [3*DATA_WIDTH-1:0] s_axis_tdata,
+		    input  logic [3*DATA_WIDTH-1:0] s_axis_tdata,
         input  logic                    s_axis_tvalid,
         input  logic                    s_axis_tuser,
         input  logic                    s_axis_tlast,
@@ -142,8 +142,8 @@ logic [C_S00_AXI_DATA_WIDTH-1:0] slv_reg0;
       //parameter HEIGHT     = 1024
     ) median_5x5_top_module_inst ( 
 
-      .i_sys_clk     ( i_sys_clk     ),
-      .i_sys_aresetn ( i_sys_aresetn ),
+      .i_clk         ( i_sys_clk     ),
+      .i_aresetn     ( i_sys_aresetn ),
 
       .WIDTH         ( img_width     ),
       .HEIGHT        ( img_height    ),

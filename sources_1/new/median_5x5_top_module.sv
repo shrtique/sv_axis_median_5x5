@@ -58,7 +58,7 @@ module median_5x5_top_module #(
   input  logic [12:0]             WIDTH,
   input  logic [12:0]             HEIGHT,
 
-  input  logic [DATA_WIDTH-1:0]   s_axis_data,
+  input  logic [DATA_WIDTH-1:0]   s_axis_tdata,
   input  logic                    s_axis_tvalid,
   input  logic                    s_axis_tuser,
   input  logic                    s_axis_tlast,
@@ -106,15 +106,18 @@ logic                  sof_from_receiver;
 AXIS_pixel_receiver #(
 
   .DATA_WIDTH  ( DATA_WIDTH  ),
-  .KERNEL_SIZE ( KERNEL_SIZE ),
-  .IMAGE_WIDTH ( IMG_WIDTH  )
+  //.IMAGE_WIDTH ( IMG_WIDTH   ),
+  .KERNEL_SIZE ( KERNEL_SIZE )
+
 
 ) data_receiver (
 
   .i_clk                 ( i_clk                             ),
   .i_aresetn             ( i_aresetn                         ),
 
-  .i_data                ( s_axis_data                       ),
+  .IMAGE_WIDTH           ( img_width                         ),
+
+  .i_data                ( s_axis_tdata                      ),
   .i_data_valid          ( s_axis_tvalid                     ),
   .i_start_of_frame      ( s_axis_tuser                      ),
 
@@ -163,12 +166,15 @@ median_processing #(
 
 median_M_AXIS_FSM #(
   .DATA_WIDTH  ( DATA_WIDTH  ),
-  .IMG_WIDTH   ( IMG_WIDTH   ),
-  .IMG_HEIGHT  ( IMG_HEIGHT  ),
+  //.IMG_WIDTH   ( IMG_WIDTH   ),
+  //.IMG_HEIGHT  ( IMG_HEIGHT  ),
   .KERNEL_SIZE ( KERNEL_SIZE )
 ) data_transmitter (	
   .i_clk              ( i_clk                      ),
   .i_aresetn          ( i_aresetn                  ),
+
+  .IMG_WIDTH          ( img_width                  ),
+  .IMG_HEIGHT         ( img_height                 ),
 
   .i_median_pixel     ( data_from_processing       ),
   .i_image_data_valid ( data_valid_from_processing ),

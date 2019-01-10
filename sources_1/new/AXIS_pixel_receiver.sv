@@ -33,14 +33,17 @@
 
 module AXIS_pixel_receiver#(
 
-  parameter DATA_WIDTH  = 8,
-  parameter KERNEL_SIZE = 5,
-  parameter IMAGE_WIDTH = 10
+  parameter DATA_WIDTH      = 8,
+  parameter MAX_IMAGE_WIDTH = 4096,
+  //parameter IMAGE_WIDTH = 10,
+  parameter KERNEL_SIZE     = 5
 
 )(
 
   input  logic                  i_clk,
   input  logic                  i_aresetn,
+
+  input  logic [12:0]           IMAGE_WIDTH,
 
   input  logic [DATA_WIDTH-1:0] i_data,
   input  logic                  i_data_valid,
@@ -56,7 +59,8 @@ module AXIS_pixel_receiver#(
 
 
 //signals
-typedef logic [DATA_WIDTH-1:0] type_line_buffer [0:KERNEL_SIZE-2] [0:( IMAGE_WIDTH - KERNEL_SIZE )-1];
+//typedef logic [DATA_WIDTH-1:0] type_line_buffer [0:KERNEL_SIZE-2] [0:( IMAGE_WIDTH - KERNEL_SIZE )-1];
+typedef logic [DATA_WIDTH-1:0] type_line_buffer [0:KERNEL_SIZE-2] [0:( MAX_IMAGE_WIDTH - KERNEL_SIZE )-1];
 type_line_buffer line_buffer_array;
 //
 //
@@ -72,11 +76,13 @@ always_ff @( posedge i_clk, negedge i_aresetn )
       if ( i_data_valid ) begin
 
         o_image_kernel_buffer[0] <= {i_data, o_image_kernel_buffer[0][0:KERNEL_SIZE-2]};
-        line_buffer_array[0]     <= {o_image_kernel_buffer[0][KERNEL_SIZE-1], line_buffer_array[0][0:( IMAGE_WIDTH - KERNEL_SIZE )-2]};
- 
+        //line_buffer_array[0]     <= {o_image_kernel_buffer[0][KERNEL_SIZE-1], line_buffer_array[0][0:( IMAGE_WIDTH - KERNEL_SIZE )-2]};
+        line_buffer_array[0]     <= {o_image_kernel_buffer[0][KERNEL_SIZE-1], line_buffer_array[0][0:( MAX_IMAGE_WIDTH - KERNEL_SIZE )-2]};
+        
         for ( int i = 1; i < KERNEL_SIZE-1; i++ ) begin
           o_image_kernel_buffer[i] <= {line_buffer_array[i-1][(IMAGE_WIDTH - KERNEL_SIZE)-1],o_image_kernel_buffer[i][0:KERNEL_SIZE-2]};
-          line_buffer_array[i]     <= {o_image_kernel_buffer[i][KERNEL_SIZE-1], line_buffer_array[i][0:( IMAGE_WIDTH - KERNEL_SIZE )-2]};
+          //line_buffer_array[i]     <= {o_image_kernel_buffer[i][KERNEL_SIZE-1], line_buffer_array[i][0:( IMAGE_WIDTH - KERNEL_SIZE )-2]};
+          line_buffer_array[i]     <= {o_image_kernel_buffer[i][KERNEL_SIZE-1], line_buffer_array[i][0:( MAX_IMAGE_WIDTH - KERNEL_SIZE )-2]};
         end  
 
         o_image_kernel_buffer[KERNEL_SIZE-1] <= {line_buffer_array[KERNEL_SIZE-2][(IMAGE_WIDTH - KERNEL_SIZE)-1],o_image_kernel_buffer[KERNEL_SIZE-1][0:KERNEL_SIZE-2]};

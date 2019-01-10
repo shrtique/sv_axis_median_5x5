@@ -22,12 +22,15 @@
 
 module median_M_AXIS_FSM #(
   parameter DATA_WIDTH  = 8,
-  parameter IMG_WIDTH   = 10,
-  parameter IMG_HEIGHT  = 10,
+  //parameter IMG_WIDTH   = 10,
+  //parameter IMG_HEIGHT  = 10,
   parameter KERNEL_SIZE = 5
 )(	
   input  logic                  i_clk,
   input  logic                  i_aresetn,
+
+  input  logic [12:0]           IMG_WIDTH,
+  input  logic [12:0]           IMG_HEIGHT,
 
   input  logic [DATA_WIDTH-1:0] i_median_pixel,
   input  logic                  i_image_data_valid,
