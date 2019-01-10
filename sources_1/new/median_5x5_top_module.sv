@@ -46,14 +46,17 @@
 module median_5x5_top_module #(
 
   parameter DATA_WIDTH  = 8,
-  parameter IMG_WIDTH   = 1280,
-  parameter IMG_HEIGHT  = 1024,
+  //parameter IMG_WIDTH   = 1280,
+  //parameter IMG_HEIGHT  = 1024,
   parameter KERNEL_SIZE = 5
 
 )(
 
   input  logic                    i_clk,
   input  logic                    i_aresetn,
+
+  input  logic [12:0]             WIDTH,
+  input  logic [12:0]             HEIGHT,
 
   input  logic [DATA_WIDTH-1:0]   s_axis_data,
   input  logic                    s_axis_tvalid,
@@ -81,6 +84,14 @@ always_ff @( posedge i_clk, negedge i_aresetn )
 end
 //
 //
+
+// ASSIGNES
+//parameters signals
+logic [12:0] img_width;
+logic [12:0] img_height;
+
+assign img_width  = WIDTH;
+assign img_height = HEIGHT;
 
 
 ////INST////
