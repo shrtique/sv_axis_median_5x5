@@ -46,8 +46,8 @@
 module median_5x5_top_module #(
 
   parameter DATA_WIDTH  = 8,
-  parameter IMG_WIDTH   = 1280,
-  parameter IMG_HEIGHT  = 1024,
+  parameter IMG_WIDTH   = 4096,
+  parameter IMG_HEIGHT  = 3072,
   parameter KERNEL_SIZE = 5
 
 )(

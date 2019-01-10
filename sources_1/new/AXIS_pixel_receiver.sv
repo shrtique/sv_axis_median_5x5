@@ -35,7 +35,7 @@ module AXIS_pixel_receiver#(
 
   parameter DATA_WIDTH  = 8,
   parameter KERNEL_SIZE = 5,
-  parameter IMAGE_WIDTH = 10
+  parameter IMAGE_WIDTH = 4096
 
 )(
 
