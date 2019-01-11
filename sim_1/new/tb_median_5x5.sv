@@ -65,8 +65,8 @@ logic                  tlast_median;
 median_5x5_top_module #(
 
   .DATA_WIDTH    ( DATA_WIDTH  ),
-  .IMG_WIDTH     ( WIDTH       ),
-  .IMG_HEIGHT    ( HEIGHT      ),
+  //.IMG_WIDTH     ( WIDTH       ),
+  //.IMG_HEIGHT    ( HEIGHT      ),
   .KERNEL_SIZE   ( KERNEL_SIZE )
 
 ) UUT (
@@ -74,7 +74,10 @@ median_5x5_top_module #(
   .i_clk         ( clk           ),
   .i_aresetn     ( aresetn       ),
 
-  .s_axis_data   ( tdata         ),
+  .WIDTH         ( WIDTH  ),
+  .HEIGHT        ( HEIGHT ),
+
+  .s_axis_tdata   ( tdata         ),
   .s_axis_tvalid ( tvalid        ),
   .s_axis_tuser  ( tuser         ),
   .s_axis_tlast  ( tlast         ),
