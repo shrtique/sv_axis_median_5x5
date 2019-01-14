@@ -24,7 +24,7 @@ module tb_AXIS_pixel_receiver();
 
 localparam DATA_WIDTH  = 8;
 localparam KERNEL_SIZE = 5;
-localparam IMAGE_WIDTH = 10;
+localparam IMAGE_WIDTH = 4096;
 
 
 //signals
@@ -36,10 +36,11 @@ logic [DATA_WIDTH-1:0] image_data, image_data_r;
 logic                  image_data_valid, image_data_valid_r;
 logic [DATA_WIDTH-1:0] image_kernel [0:KERNEL_SIZE-1] [0:KERNEL_SIZE-1];
 logic                  start_of_frame, start_of_frame_r;
+logic [31:0]           pixel_counter; 
 
 
 
-axis_window_receiver #(
+AXIS_pixel_receiver #(
   .DATA_WIDTH     ( DATA_WIDTH  ),
   //.IMAGE_WIDTH    ( IMAGE_WIDTH ),
   .KERNEL_SIZE    ( KERNEL_SIZE )
@@ -50,7 +51,7 @@ axis_window_receiver #(
   .i_clk                ( clk              ),
   .i_aresetn            ( aresetn          ),
 
-  .IMAGE_WIDTH          ( 12'd8      ),
+  .IMAGE_WIDTH          ( IMAGE_WIDTH      ),
 
   .i_data               ( image_data_r       ),
   .i_data_valid         ( image_data_valid_r ),
@@ -111,11 +112,13 @@ always_ff @( posedge clk, negedge aresetn )
       image_data_r       <= '0;
       image_data_valid_r <= 1'b0;
       start_of_frame_r   <= 1'b0;
+      pixel_counter      <= '0;
     end else begin  
       image_data_valid_r <= image_data_valid;
       start_of_frame_r   <= start_of_frame;
       if ( image_data_valid_r ) begin      
         image_data_r       <= image_data_r + 1;
+        pixel_counter      <= pixel_counter + 1;
       end  
     end        
   end

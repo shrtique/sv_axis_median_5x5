@@ -23,8 +23,8 @@
 module tb_median_5x5();
 
 localparam DATA_WIDTH  = 8;
-localparam WIDTH       = 1280;
-localparam HEIGHT      = 1024;
+localparam WIDTH       = 4096;
+localparam HEIGHT      = 3072;
 localparam KERNEL_SIZE = 5;
 //
 //

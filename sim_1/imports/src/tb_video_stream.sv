@@ -71,9 +71,9 @@ module tb_video_stream #(
   logic         stream_on;
   logic         end_of_frame;
   logic         en_counters;
-  logic [19:0]  pixel_address, pixel_address_current;
-  logic [10:0]  pixel_counter;
-  logic [10:0]  line_counter;
+  logic [31:0]  pixel_address, pixel_address_current;
+  logic [12:0]  pixel_counter;
+  logic [12:0]  line_counter;
   logic [3:0]   frame_counter;
 
   logic [3:0]   pause_counter;
@@ -90,7 +90,7 @@ integer fileId;
 initial
   begin
     // Read
-    fileId = $fopen("img.bin", "rb");
+    fileId = $fopen("img_4096_3072.bin", "rb");
     $fread(loaded_image, fileId);
     $fclose(fileId);
 
